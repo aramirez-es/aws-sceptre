@@ -1,0 +1,7 @@
+---
+template_path: templates/ecs.yaml
+dependencies:
+  - pro/vpc
+parameters:
+    PublicSubnet1: !stack_output vpc::PublicSubnet1
+    PublicSubnet2: !stack_output vpc::PublicSubnet2
