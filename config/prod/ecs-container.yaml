@@ -7,6 +7,7 @@ parameters:
     ECSCluster: !stack_output ecs-cluster::ECSCluster
     ContainerSecurityGroup: !stack_output ecs-cluster::ContainerSecurityGroup
     Listener: !stack_output ecs-cluster::Listener
+    LoadBalancerDns: !stack_output ecs-cluster::LoadBalancerDns
     DockerImage: {{ var.docker_image }}
     Vpc: !stack_output vpc::VPCId
     PublicSubnet1: !stack_output vpc::PublicSubnet1

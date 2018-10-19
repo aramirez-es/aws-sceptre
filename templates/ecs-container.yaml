@@ -9,6 +9,8 @@
       Type: "String"
     Listener:
       Type: "String"
+    LoadBalancerDns:
+      Type: "String"
     DockerImage:
       Type: "String"
     Vpc:
@@ -90,4 +92,4 @@
   Outputs:
     Endpoint:
       Description: container endpoint
-      Value: !Join ['', ['http://', !ImportValue LoadBalancerDns, '/']]
+      Value: !Join ['', ['http://', !Ref LoadBalancerDns, '/']]
