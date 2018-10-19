@@ -1,7 +1,8 @@
 ---
-template_path: templates/ecs.yaml
+template_path: templates/ecs-cluster.yaml
 dependencies:
   - pro/vpc
 parameters:
+    Vpc: !stack_output vpc::VPCId
     PublicSubnet1: !stack_output vpc::PublicSubnet1
     PublicSubnet2: !stack_output vpc::PublicSubnet2

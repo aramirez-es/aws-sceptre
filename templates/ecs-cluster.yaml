@@ -1,0 +1,80 @@
+---
+  AWSTemplateFormatVersion: "2010-09-09"
+  Description: "Create a ECS Cluster and LoadBalancer"
+
+  Parameters:
+    Vpc:
+      Type: "String"
+    PublicSubnet1:
+      Type: "String"
+    PublicSubnet2:
+      Type: "String"
+
+  Resources:
+    ECSCluster:
+      Type: "AWS::ECS::Cluster"
+      Properties:
+        ClusterName: "TestingApp"
+
+    LoadBalancer:
+      Type: "AWS::ElasticLoadBalancingV2::LoadBalancer"
+      Properties:
+        Name: "ECS-Load-Balancer"
+        Subnets:
+          - !Ref PublicSubnet1
+          - !Ref PublicSubnet2
+        SecurityGroups:
+          - !Ref LoadBalancerSecurityGroup
+
+    LoadBalancerListener:
+      Type: "AWS::ElasticLoadBalancingV2::Listener"
+      Properties:
+        LoadBalancerArn: !Ref LoadBalancer
+        Protocol: HTTP
+        Port: 80
+        DefaultActions:
+          - Type: forward
+            TargetGroupArn: !Ref DefaultTargetGroup
+
+    DefaultTargetGroup:
+      Type: "AWS::ElasticLoadBalancingV2::TargetGroup"
+      Properties:
+        Name: default
+        VpcId: !Ref Vpc
+        Protocol: HTTP
+        Port: 80
+
+    LoadBalancerSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupDescription: Security group for load balancer to services on ECS
+        VpcId: !Ref Vpc
+        SecurityGroupIngress:
+          - CidrIp: 0.0.0.0/0
+            IpProtocol: -1
+
+    ContainerSecurityGroup:
+      Type: "AWS::EC2::SecurityGroup"
+      Properties:
+        GroupDescription: Security group containers on ECS
+        VpcId: !Ref Vpc
+        SecurityGroupIngress:
+          - SourceSecurityGroupId: !Ref 'LoadBalancerSecurityGroup'
+            IpProtocol: -1
+
+  Outputs:
+    ECSCluster: 
+      Description: "ECS Cluster created"
+      Value:
+        Ref: "ECSCluster"
+
+    LoadBalancerArn:
+      Description: "LoadBalancer for ECS Cluster"
+      Value:
+        Ref: "LoadBalancer"
+
+    LoadBalancerDns:
+      Description: DNS for the Load Balancer
+      Value: !GetAtt LoadBalancer.DNSName
+      Export:
+        Name: "LoadBalancerDns"
