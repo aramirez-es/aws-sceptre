@@ -1,0 +1,12 @@
+---
+template_path: templates/ecs-container.yaml
+dependencies:
+  - pro/vpc
+  - pro/ecs-cluster
+parameters:
+    ECSCluster: !stack_output ecs-cluster::ECSCluster
+    ContainerSecurityGroup: !stack_output ecs-cluster::ContainerSecurityGroup
+    Listener: !stack_output ecs-cluster::Listener
+    Vpc: !stack_output vpc::VPCId
+    PublicSubnet1: !stack_output vpc::PublicSubnet1
+    PublicSubnet2: !stack_output vpc::PublicSubnet2

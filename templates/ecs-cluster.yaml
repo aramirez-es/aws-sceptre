@@ -68,6 +68,10 @@
       Value:
         Ref: "ECSCluster"
 
+    Listener:
+      Description: Listener port 80
+      Value: !Ref LoadBalancerListener
+
     LoadBalancerArn:
       Description: "LoadBalancer for ECS Cluster"
       Value:
@@ -78,3 +82,8 @@
       Value: !GetAtt LoadBalancer.DNSName
       Export:
         Name: "LoadBalancerDns"
+
+    ContainerSecurityGroup:
+      Description: Security Group For the conainers
+      Value:
+        Ref: "ContainerSecurityGroup"
