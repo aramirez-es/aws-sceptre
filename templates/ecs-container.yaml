@@ -9,6 +9,8 @@
       Type: "String"
     Listener:
       Type: "String"
+    DockerImage:
+      Type: "String"
     Vpc:
       Type: "String"
     PublicSubnet1:
@@ -28,7 +30,7 @@
           - FARGATE
         ContainerDefinitions:
           - Name: app
-            Image: nginx:1.15
+            Image: !Ref DockerImage
             PortMappings:
               - ContainerPort: 80
                 Protocol: tcp

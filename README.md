@@ -19,5 +19,5 @@ $ pip install -r requirements.txt
 First, export `AWS_SECRET_KEY_ID` and `AWS_SECRET_ACCESS_KEY` or `AWS_PROFILE`, then execute:
 
 ```bash
-$ sceptre launch-env prod
+$ sceptre --var "docker_image=nginx:1.15" launch-env prod
 ```
